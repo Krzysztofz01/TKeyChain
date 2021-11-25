@@ -3,8 +3,8 @@
     public interface IFileService
     {
         public string GetVaultFileContent();
-        public string InitializeVaultFile();
-        public void AppendVaultFile();
-        public void BackupVaultFile();
+        public void InitializeVaultFile(string cipher);
+        public void AppendVaultFile(string cipher);
+        public void BackupVaultFile(string path);
     }
 }

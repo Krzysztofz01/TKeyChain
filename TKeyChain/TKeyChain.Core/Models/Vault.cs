@@ -53,5 +53,10 @@ namespace TKeyChain.Core.Models
         {
             return new Vault();
         }
+
+        public static Vault Deserialize(string serializedVault)
+        {
+            return JsonSerializer.Deserialize<Vault>(serializedVault);
+        }
     }
 }
