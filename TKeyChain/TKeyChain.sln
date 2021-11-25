@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TKeyChain.Console", "TKeyChain.Console\TKeyChain.Console.csproj", "{5AEBC5F4-AD36-48CE-9904-2CFDFFAF7481}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TKeyChain.Cli", "TKeyChain.Console\TKeyChain.Cli.csproj", "{5AEBC5F4-AD36-48CE-9904-2CFDFFAF7481}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TKeyChain.Core", "TKeyChain.Core\TKeyChain.Core.csproj", "{8A14E6B8-1DE8-4137-A4D4-6EC8B4E3B595}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TKeyChain.Core.Test", "TKeyChain.Core.Test\TKeyChain.Core.Test.csproj", "{A2F20099-319E-44FD-894A-155DF08FDF45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8A14E6B8-1DE8-4137-A4D4-6EC8B4E3B595}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A14E6B8-1DE8-4137-A4D4-6EC8B4E3B595}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A14E6B8-1DE8-4137-A4D4-6EC8B4E3B595}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2F20099-319E-44FD-894A-155DF08FDF45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F20099-319E-44FD-894A-155DF08FDF45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F20099-319E-44FD-894A-155DF08FDF45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F20099-319E-44FD-894A-155DF08FDF45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
