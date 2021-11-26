@@ -9,7 +9,7 @@ namespace TKeyChain.Core
     public class FileService : IFileService
     {
         private readonly string _directoryName = "TKeyChain";
-        private readonly string _vaultName = "tkcVault";
+        private readonly string _vaultName = "vault.tkcv";
 
         public void AppendVaultFile(string cipher)
         {
@@ -55,16 +55,20 @@ namespace TKeyChain.Core
         public void InitializeVaultFile(string cipher)
         {
             if (File.Exists(GetVaultPath()))
-                throw new VaultIOException("The vault is already created.");
+                throw new VaultIOException("The vault was already created.");
+
+            Directory.CreateDirectory(GetVaultPath(true));
 
             using var sw = File.CreateText(GetVaultPath());
             
             sw.WriteLine(cipher);
         }
 
-        private string GetVaultPath()
+        private string GetVaultPath(bool directoryOnly = false)
         {
             string vaultDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _directoryName);
+
+            if (directoryOnly) return vaultDirectoryPath;
 
             string vaultFilePath = Path.Combine(vaultDirectoryPath, _vaultName);
 

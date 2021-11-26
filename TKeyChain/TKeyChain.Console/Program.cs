@@ -12,9 +12,12 @@ namespace TKeyChain.Cli
         {
             try
             {
-                if (args.Length == 0) Help.Print();
+                if (args.Length == 0 || args.Any(a => a.ToLower() == "-h" || a.ToLower() == "--help"))
+                {
+                    Help.Print();
 
-                if (args.Any(a => a.ToLower() == "-h" || a.ToLower() == "--help")) Help.Print();
+                    return SUCCESS;
+                }
 
                 //TODO: Pass data about platform.
                 var commandHandler = new CommandHandler();

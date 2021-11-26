@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using TKeyChain.Core.Exceptions;
 
 namespace TKeyChain.Core.Models
 {
     public class Vault
     {
-        private readonly List<VaultEntity> _vaultEntities;
+        public List<VaultEntity> VaultEntities { get; init; }
 
         public string GetPassword(string name)
         {
-            var vaultEntity = _vaultEntities
+            var vaultEntity = VaultEntities
                 .SingleOrDefault(e => e.Name == name);
 
             if (vaultEntity is null)
@@ -22,38 +23,41 @@ namespace TKeyChain.Core.Models
 
         public IEnumerable<string> GetAllPasswordNames()
         {
-            return _vaultEntities
+            return VaultEntities
                 .Select(v => v.Name);
         }
 
         public void InsertPassword(string name, string password)
         {
-            if (_vaultEntities.Any(e => e.Name == name))
+            if (VaultEntities.Any(e => e.Name == name))
                 throw new VaultLogicException("The name must be unique, and this name is already in use.");
 
             var vaultEntity = VaultEntity.Create(name, password);
 
-            _vaultEntities.Add(vaultEntity);
+            VaultEntities.Add(vaultEntity);
         }
 
         public void RemovePassword(string name)
         {
-            var vaultEntity = _vaultEntities
+            var vaultEntity = VaultEntities
                 .SingleOrDefault(e => e.Name == name);
 
             if (vaultEntity is null)
                 throw new VaultLogicException("No matching entity found.");
 
-            _vaultEntities.Remove(vaultEntity);
+            VaultEntities.Remove(vaultEntity);
         }
 
         public string Serialize()
         {
-            return JsonSerializer.Serialize(this);
+            return JsonSerializer.Serialize(this, typeof(Vault), new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.Never
+            });
         }
 
-        private Vault() =>
-            _vaultEntities = new List<VaultEntity>();
+        public Vault() =>
+            VaultEntities = new List<VaultEntity>();
 
         public static Vault Create()
         {

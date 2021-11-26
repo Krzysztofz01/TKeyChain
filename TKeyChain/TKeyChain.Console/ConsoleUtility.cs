@@ -7,7 +7,7 @@ namespace TKeyChain.Cli
     {
         public static string ReadSecret(string message = null)
         {
-            if (message != null) Console.WriteLine(message);
+            if (message != null) Console.Write(message);
 
             var sb = new StringBuilder();
 
@@ -18,6 +18,7 @@ namespace TKeyChain.Cli
                 switch (key.Key)
                 {
                     case ConsoleKey.Enter:
+                        Console.WriteLine(Environment.NewLine);
                         return sb.ToString();
 
                     case ConsoleKey.Backspace:

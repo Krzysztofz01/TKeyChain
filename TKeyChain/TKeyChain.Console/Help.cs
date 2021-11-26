@@ -10,10 +10,23 @@ namespace TKeyChain.Cli
             "<COMMAND> [ARGUMENT] <PARAMETER>",
             string.Empty,
             "COMMANDS:",
-            "init - Initialize a new vault. | -h (--help) - Display informations;",
-            "get (default) - Retrive a password from the vault. | -h (--help) - Display informations; -l --list - List password names; -n --no-clipboard - Do not copy the password to clipboard. (Default: false); -p --print - Print output password to terminal (Default: false) | <password-name>",
-            "insert - Insert a new password into the vault. | -h (--help) - Display informations; | <password-name>",
-            "remove - Remove a password from the vault.| -h (--help) - Display informations; | <password-name>"
+            "init - Initialize a new vault.",
+            "-h (--help) - Display informations;",
+            string.Empty,
+            "get (default) - Retrive a password from the vault.",
+            "-h (--help) - Display informations;",
+            "-l --list - List password names;",
+            "-n --no-clipboard - Do not copy the password to clipboard. (Default: false);",
+            "-p --print - Print output password to terminal (Default: false);",
+            "<password-name>",
+            string.Empty,
+            "insert - Insert a new password into the vault.",
+            "-h (--help) - Display informations;",
+            "<password-name>",
+            string.Empty,
+            "remove - Remove a password from the vault.",
+            "-h (--help) - Display informations;",
+            "<password-name>"
         };
 
         public static void Print()

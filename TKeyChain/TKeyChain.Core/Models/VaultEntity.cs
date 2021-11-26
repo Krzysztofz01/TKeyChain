@@ -6,11 +6,19 @@ namespace TKeyChain.Core.Models
 {
     public class VaultEntity
     {
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
-        public string Password { get; private set; }
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+        public string Password { get; init; }
 
-        private VaultEntity() { }
+        [Obsolete("The parameterless constructor should be used only by the serializer.")]
+        public VaultEntity() { }
+
+        private VaultEntity(string name, string password)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Password = password;
+        }
 
         private static void Validate(string name, string password)
         {
@@ -28,12 +36,7 @@ namespace TKeyChain.Core.Models
         {
             Validate(name, password);
 
-            return new VaultEntity
-            {
-                Id = Guid.NewGuid(),
-                Name = name,
-                Password = password
-            };
+            return new VaultEntity(name, password);
         }
     }
 }
