@@ -45,21 +45,40 @@ namespace TKeyChain.Cli
 
             if (printAllPasswordNames)
             {
-                foreach (var name in vault.GetAllPasswordNames()) Console.WriteLine(name);
+                var names = vault.GetAllPasswordNames();
+
+                if (!names.Any())
+                {
+                    Console.WriteLine("No passwords stored in the vault.");
+                    return;
+                }
+
+                foreach (var name in names) Console.WriteLine(name);
 
                 return;
             }
 
             string password = vault.GetPassword(passwordName);
 
-            if (copyToClipboard) _clipboardService.CopyToClipboard(password);
+            if (copyToClipboard)
+            {
+                _clipboardService.CopyToClipboard(password);
+                Console.WriteLine("Password copied to clipboard...");
+            }
 
-            if (printToTerminal) Console.WriteLine(password);
+            if (printToTerminal)
+            {
+                Console.WriteLine($"Password for {passwordName}:");
+                Console.WriteLine(password);
+            }
         }
 
         public void Insert(string[] args)
         {
             if (args.Length != 2)
+                throw new ArgumentException("Invalid argumenets.");
+
+            if (args.Last().StartsWith("-"))
                 throw new ArgumentException("Invalid argumenets.");
 
             string passwordName = args.Last();
@@ -74,6 +93,11 @@ namespace TKeyChain.Cli
 
             string password = ConsoleUtility.ReadSecret("Enter the password you want to store: ");
 
+            string passwordRepeat = ConsoleUtility.ReadSecret("Repeat the password you want to store: ");
+
+            if (password != passwordRepeat)
+                throw new ArgumentException("The given passwords are not matching.");
+
             vault.InsertPassword(passwordName, password);
 
             string updatedSerializedVault = vault.Serialize();
@@ -81,11 +105,16 @@ namespace TKeyChain.Cli
             string updatedCipher = _encryptionService.EncryptVault(updatedSerializedVault, masterPassword);
 
             _fileService.AppendVaultFile(updatedCipher);
+
+            Console.WriteLine("Password successful stored in the vault.");
         }
 
         public void Remove(string[] args)
         {
             if (args.Length != 2)
+                throw new ArgumentException("Invalid argumenets.");
+
+            if (args.Last().StartsWith("-"))
                 throw new ArgumentException("Invalid argumenets.");
 
             string passwordName = args.Last();
@@ -105,6 +134,8 @@ namespace TKeyChain.Cli
             string updatedCipher = _encryptionService.EncryptVault(updatedSerializedVault, masterPassword);
 
             _fileService.AppendVaultFile(updatedCipher);
+
+            Console.WriteLine("Password sucessful removed from the vault.");
         }
 
         public void Initialize(string[] args)
@@ -116,6 +147,8 @@ namespace TKeyChain.Cli
             var cipher = _encryptionService.EncryptVault(serializedVault, masterPassword);
 
             _fileService.InitializeVaultFile(cipher);
+
+            Console.WriteLine("Vault initialized successful.");
         }
     }
 }
