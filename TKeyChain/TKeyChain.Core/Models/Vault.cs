@@ -36,7 +36,7 @@ namespace TKeyChain.Core.Models
             _vaultEntities.Add(vaultEntity);
         }
 
-        public void RemovePassword(string name, string password)
+        public void RemovePassword(string name)
         {
             var vaultEntity = _vaultEntities
                 .SingleOrDefault(e => e.Name == name);
