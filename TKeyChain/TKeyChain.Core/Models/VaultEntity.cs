@@ -17,6 +17,9 @@ namespace TKeyChain.Core.Models
             if (name.IsEmpty())
                 throw new VaultLogicException("Invalid name format.");
 
+            if (name.StartsWith("-") || name.StartsWith("--"))
+                throw new VaultLogicException("Invalid name format.");
+
             if (password.IsEmpty())
                 throw new VaultLogicException("Invalid password format.");
         }

@@ -20,6 +20,12 @@ namespace TKeyChain.Core.Models
             return vaultEntity.Password;
         }
 
+        public IEnumerable<string> GetAllPasswordNames()
+        {
+            return _vaultEntities
+                .Select(v => v.Name);
+        }
+
         public void InsertPassword(string name, string password)
         {
             if (_vaultEntities.Any(e => e.Name == name))
