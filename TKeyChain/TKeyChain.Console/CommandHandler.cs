@@ -18,6 +18,8 @@ namespace TKeyChain.Cli
         {
             _fileService = new FileService();
             _encryptionService = new EncryptionService();
+
+            // TODO: Implement the clipboard service
             _clipboardService = null;
         }
 
@@ -103,6 +105,17 @@ namespace TKeyChain.Cli
             string updatedCipher = _encryptionService.EncryptVault(updatedSerializedVault, masterPassword);
 
             _fileService.AppendVaultFile(updatedCipher);
+        }
+
+        public void Initialize(string[] args)
+        {
+            string masterPassword = ConsoleUtility.ReadSecret(_secretEnterPrompt);
+
+            var serializedVault = Vault.Create().Serialize();
+
+            var cipher = _encryptionService.EncryptVault(serializedVault, masterPassword);
+
+            _fileService.InitializeVaultFile(cipher);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace TKeyChain.Cli
                 {
                     case "insert": commandHandler.Insert(args); break;
                     case "remove": commandHandler.Remove(args); break;
+                    case "init": commandHandler.Initialize(args); break;
                     default: commandHandler.Get(args); break;
                 }
 

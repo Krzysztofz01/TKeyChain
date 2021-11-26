@@ -4,7 +4,7 @@ namespace TKeyChain.Cli
 {
     public static class Help
     {
-        public static string[] commandsList = new string[]
+        private readonly static string[] commandsList = new string[]
         {
             "SCHEMA:",
             "<COMMAND> [ARGUMENT] <PARAMETER>",
