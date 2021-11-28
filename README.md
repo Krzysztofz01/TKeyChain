@@ -37,7 +37,6 @@ We can pass aditional arguments such as:
 Features that are not implemented, but that their implementation is planned:
 
 - Backing up the vault file to the specified location.
-- Clipboard support for Windows systems.
 - Clipboard support for Linux systems.
 - Clipboard support for MacOS systems.
 - Instalation script.

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using TKeyChain.Core;
 using TKeyChain.Core.Abstraction;
 using TKeyChain.Core.Models;
+using TKeyChain.Core.Windows;
 
 namespace TKeyChain.Cli
 {
@@ -19,8 +21,8 @@ namespace TKeyChain.Cli
             _fileService = new FileService();
             _encryptionService = new EncryptionService();
 
-            // TODO: Implement the clipboard service
-            _clipboardService = null;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                _clipboardService = new WindowsClipboardService();
         }
 
         public void Get(string[] args)
@@ -62,8 +64,15 @@ namespace TKeyChain.Cli
 
             if (copyToClipboard)
             {
-                _clipboardService.CopyToClipboard(password);
-                Console.WriteLine("Password copied to clipboard...");
+                if (_clipboardService is null)
+                {
+                    Console.WriteLine("Clipboard is not available.");
+                }
+                else
+                {
+                    _clipboardService.CopyToClipboard(password);
+                    Console.WriteLine("Password copied to clipboard...");
+                }
             }
 
             if (printToTerminal)
