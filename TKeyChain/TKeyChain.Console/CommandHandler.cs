@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using TKeyChain.Core;
 using TKeyChain.Core.Abstraction;
+using TKeyChain.Core.Extensions;
 using TKeyChain.Core.Models;
 using TKeyChain.Core.Windows;
 
@@ -15,11 +16,13 @@ namespace TKeyChain.Cli
         private readonly IFileService _fileService;
         private readonly IEncryptionService _encryptionService;
         private readonly IClipboardService _clipboardService;
+        private readonly IPasswordService _passwordService;
 
         public CommandHandler()
         {
             _fileService = new FileService();
             _encryptionService = new EncryptionService();
+            _passwordService = new PasswordService();
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 _clipboardService = new WindowsClipboardService();
@@ -36,6 +39,9 @@ namespace TKeyChain.Cli
             if (args.Any(a => a.ToLower() == "-l" || a.ToLower() == "--list")) printAllPasswordNames = true;
             
             string passwordName = args.Last();
+
+            if (passwordName.IsEmpty())
+                throw new ArgumentNullException("Invalid password name provided.");
 
             string masterPassword = ConsoleUtility.ReadSecret(_secretEnterPrompt);
 
@@ -84,11 +90,15 @@ namespace TKeyChain.Cli
 
         public void Insert(string[] args)
         {
-            if (args.Length != 2)
+            bool passwordCheck = true;
+
+            if (args.Length < 2)
                 throw new ArgumentException("Invalid argumenets.");
 
             if (args.Last().StartsWith("-"))
                 throw new ArgumentException("Invalid argumenets.");
+
+            if (args.Any(a => a.ToLower() == "-s" || a.ToLower() == "--skip-check")) passwordCheck = false;
 
             string passwordName = args.Last();
 
@@ -106,6 +116,12 @@ namespace TKeyChain.Cli
 
             if (password != passwordRepeat)
                 throw new ArgumentException("The given passwords are not matching.");
+
+            if (passwordCheck)
+            {
+                if (!_passwordService.CheckPassword(password))
+                    Console.WriteLine("Your password is not strong. Consider changing your passwords or generating a strong password.");
+            }
 
             vault.InsertPassword(passwordName, password);
 

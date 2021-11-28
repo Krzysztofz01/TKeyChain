@@ -19,7 +19,6 @@ namespace TKeyChain.Cli
                     return SUCCESS;
                 }
 
-                //TODO: Pass data about platform.
                 var commandHandler = new CommandHandler();
 
                 switch (args[0].ToLower())

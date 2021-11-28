@@ -22,6 +22,7 @@ namespace TKeyChain.Cli
             string.Empty,
             "insert - Insert a new password into the vault.",
             "-h (--help) - Display informations;",
+            "-s (--skip-check) - Skip the password strength check.",
             "<password-name>",
             string.Empty,
             "remove - Remove a password from the vault.",
