@@ -16,6 +16,21 @@ The idea behind this little program is my distrust of third party password manag
     - [AES - Advanced Encryption Standard](https://pl.wikipedia.org/wiki/Advanced_Encryption_Standard)
     - [GCM - Galois/Counter Mode](https://en.wikipedia.org/wiki/Galois/Counter_Mode)
 
+## Installation (*Windows*)
+Requirements:
+- **git** - Cloning the source code from Github.
+- **dotnet SDK** - Building the project from source code.
+
+```
+# Clone the repository
+git clone https://github.com/Krzysztofz01/TKeyChain.git
+
+# Run the install script
+./build.cmd
+
+# Remember to add the bin directory to the environment variables path
+```
+
 ## Usage
 
 Run the program with ```-h (--help)``` to display all informations, available commands and arguments.
@@ -39,7 +54,5 @@ Features that are not implemented, but that their implementation is planned:
 - Backing up the vault file to the specified location.
 - Clipboard support for Linux systems.
 - Clipboard support for MacOS systems.
-- Instalation script.
-- Checking if the given password is safe.
-- Secure password generator (KeepMeSafe integration).
+- Secure password generator.
 - Option to run TKC in a container as a service.
