@@ -91,6 +91,7 @@ namespace TKeyChain.Cli
         public void Insert(string[] args)
         {
             bool passwordCheck = true;
+            bool generatePassword = false;
 
             if (args.Length < 2)
                 throw new ArgumentException("Invalid argumenets.");
@@ -99,6 +100,7 @@ namespace TKeyChain.Cli
                 throw new ArgumentException("Invalid argumenets.");
 
             if (args.Any(a => a.ToLower() == "-s" || a.ToLower() == "--skip-check")) passwordCheck = false;
+            if (args.Any(a => a.ToLower() == "-g" || a.ToLower() == "--generate")) generatePassword = true;
 
             string passwordName = args.Last();
 
@@ -110,20 +112,32 @@ namespace TKeyChain.Cli
 
             var vault = Vault.Deserialize(serializedVault);
 
-            string password = ConsoleUtility.ReadSecret("Enter the password you want to store: ");
-
-            string passwordRepeat = ConsoleUtility.ReadSecret("Repeat the password you want to store: ");
-
-            if (password != passwordRepeat)
-                throw new ArgumentException("The given passwords are not matching.");
-
-            if (passwordCheck)
+            if (generatePassword)
             {
-                if (!_passwordService.CheckPassword(password))
-                    Console.WriteLine("Your password is not strong. Consider changing your passwords or generating a strong password.");
-            }
+                string password = _passwordService.GeneratePassword();
 
-            vault.InsertPassword(passwordName, password);
+                Console.WriteLine("Generated password copied to clipboard...");
+                _clipboardService.CopyToClipboard(password);
+
+                vault.InsertPassword(passwordName, password);
+            }
+            else
+            {
+                string password = ConsoleUtility.ReadSecret("Enter the password you want to store: ");
+
+                string passwordRepeat = ConsoleUtility.ReadSecret("Repeat the password you want to store: ");
+
+                if (password != passwordRepeat)
+                    throw new ArgumentException("The given passwords are not matching.");
+
+                if (passwordCheck)
+                {
+                    if (!_passwordService.CheckPassword(password))
+                        Console.WriteLine("Your password is not strong. Consider changing your passwords or generating a strong password.");
+                }
+
+                vault.InsertPassword(passwordName, password);
+            }
 
             string updatedSerializedVault = vault.Serialize();
 

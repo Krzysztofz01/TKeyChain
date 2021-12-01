@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using TKeyChain.Core.Abstraction;
 
@@ -15,6 +16,10 @@ namespace TKeyChain.Core
         // About 30 years to brute force
         private const string _regexPattern = @"(?=^.{12,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$";
 
+        private const int _passwordLength = 16;
+        private const byte _charRangeStart = 33;
+        private const byte _charRangeEnd = 125;
+
         public bool CheckPassword(string password)
         {
             var regex = new Regex(_regexPattern);
@@ -26,7 +31,14 @@ namespace TKeyChain.Core
 
         public string GeneratePassword()
         {
-            throw new NotImplementedException();
+            var sb = new StringBuilder(_passwordLength);
+
+            for (int i = 0; i < _passwordLength; i++)
+            {
+                sb.Append((char)RandomNumberGenerator.GetInt32(_charRangeStart, _charRangeEnd));
+            }
+
+            return sb.ToString();
         }
     }
 }

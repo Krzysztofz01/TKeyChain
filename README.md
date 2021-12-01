@@ -54,5 +54,4 @@ Features that are not implemented, but that their implementation is planned:
 - Backing up the vault file to the specified location.
 - Clipboard support for Linux systems.
 - Clipboard support for MacOS systems.
-- Secure password generator.
 - Option to run TKC in a container as a service.
